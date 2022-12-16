@@ -59,6 +59,9 @@
 @import url(./blocks/popup/__foto/popup__foto.css);
 @import url(./blocks/popup/__figcaption/popup__figcaption.css);
 @import url(./blocks/popup/__error/popup__error.css);
+@import url(./blocks/popup/__registration-status/popup__registration-status.css);
+@import url(./blocks/popup/__subtitle-registration-status/popup__subtitle-registration-status.css);
+@import url(./blocks/popup/__logo-registration-status/popup__logo-registration-status.css);
 @import url(./blocks/login/login.css);
 @import url(./blocks/login/__subtitle/login__subtitle.css);
 @import url(./blocks/login/__form/login__form.css);
