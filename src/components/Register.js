@@ -30,10 +30,8 @@ function Register(props) {
       <form className="login__form" onSubmit={handleSubmit}>
         <input className="login__input" required name="email" type="email" value={email} placeholder="Email" onChange={handleEmailChange} />
         <input className="login__input" required name="password" type="password" value={password} placeholder="Пароль" onChange={handlePasswordChange} />
-        <div className="login__button-container">
-          <button className="login__button-submit" type="submit">Зарегистрироваться</button>
-          <Link className='login__signin-link' to='/sign-in'>Уже зарегистрированы? Войти</Link>
-        </div>
+        <button className="login__button-submit" type="submit">Зарегистрироваться</button>
+        <Link className='login__signin-link' to='/sign-in'>Уже зарегистрированы? Войти</Link>
       </form>
     </div>
   );

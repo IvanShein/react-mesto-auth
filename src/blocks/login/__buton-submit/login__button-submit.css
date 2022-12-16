@@ -1,5 +1,5 @@
 .login__button-submit {
-  margin: auto 0;
+  margin: 215px 0 15px;
   padding: 0;
   width: 100%;
   min-height: 50px;
@@ -10,4 +10,5 @@
   line-height: 1.21;
   color: #000;
   border-radius: 2px;
+  border-color: #fff;
 }

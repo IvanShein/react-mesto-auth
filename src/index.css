@@ -65,5 +65,6 @@
 @import url(./blocks/login/__input/login__input.css);
 @import url(./blocks/login/__button-container/login__button-container.css);
 @import url(./blocks/login/__buton-submit/login__button-submit.css);
+@import url(./blocks/login/__signin-link/login__signin-link.css);
 
 
