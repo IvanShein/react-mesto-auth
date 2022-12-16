@@ -1,37 +1,40 @@
 import React from 'react';
-import Header from './Header';
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
-class Login extends React.Component {
-  render() {
-    return (
-      <div className="login">
-        <p className="login__welcome">
-          СТРАНИЦА ВХОДА В СИСТЕМУ НАХОДИТСЯ В СТАДИИ РАЗРАБОТКИ</p>
-        <p> Это приложение содержит конфиденциальную информацию.</p>
-        <p> Пожалуйста, войдите или зарегистрируйтесь, чтобы получить доступ к CryptoDucks.</p>
+function Login(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-        <form className="login__form">
-          <label htmlFor="username">
-            Логин:
-          </label>
-          {/* <input id="username" required name="username" type="text" value={this.state.username} onChange={this.handleChange} /> */}
-          <label htmlFor="password">
-            Пароль:
-          </label>
-          {/* <input id="password" required name="password" type="password" value={this.state.password} onChange={this.handleChange} /> */}
-          <div className="login__button-container">
-            <button type="submit" className="login__link">Войти</button>
-          </div>
-        </form>
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+  };
 
-        <div className="login__signup">
-          <p>Ещё не зарегистрированы?</p>
-          <Link to="sign-up" className="signup__link">Зарегистрироваться</Link>
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onLogin(email, password);
+  };
+
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+  }, []);
+
+  return (
+    <div className="login">
+      <h2 className="login__subtitle">Вход</h2>
+      <form className="login__form" onSubmit={handleSubmit}>
+        <input className="login__input" required name="email" type="email" value={email} placeholder="Email" onChange={handleEmailChange} />
+        <input className="login__input" required name="password" type="password" value={password} placeholder="Пароль" onChange={handlePasswordChange} />
+        <div className="login__button-container">
+          <button className="login__button-submit" type="submit">Войти</button>
         </div>
-      </div>
-    );
-  }
+      </form>
+    </div>
+  );
 }
 
 export default Login;

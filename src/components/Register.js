@@ -1,42 +1,42 @@
 import React from 'react';
-import Header from './Header';
 import { Link } from "react-router-dom";
+import { useState, useEffect, Redirect, useHistory } from 'react';
 
-class Register extends React.Component {
-  render() {
-    return (
-      <div className="register">
-        <p className="register__welcome">
-          СТРАНИЦА РЕГИСТРАЦИИ В РАЗРАБОТКЕ
-        </p>
-        <form className="register__form">
-          <label htmlFor="username">
-            Username:
-          </label>
-          {/* <input id="username" name="username" type="text" value={this.state.username} onChange={this.handleChange} /> */}
-          <label htmlFor="email">
-            Email:
-          </label>
-          {/* <input id="email" name="email" type="email" value={this.state.email} onChange={this.handleChange} /> */}
-          <label htmlFor="password">
-            Password:
-          </label>
-          {/* <input id="password" name="password" type="password" value={this.state.password} onChange={this.handleChange} /> */}
-          <label htmlFor="confirmPassword">
-            Confirm password:
-          </label>
-          {/* <input id="confirmPassword" name="confirmPassword" type="password" value={this.state.confirmPassword} onChange={this.handleChange} /> */}
-          <div className="register__button-container">
-            <button type="submit" className="register__link">Sign up</button>
-          </div>
-        </form>
-        <div className="register__signin">
-          <p>Already a member?</p>
-          <Link to="sign-in" className="register__login-link">Log in here</Link>
+function Register(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onRegister(email, password);
+  };
+
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+  }, []);
+
+  return (
+    <div className="login">
+      <h2 className="login__subtitle">Регистрация</h2>
+      <form className="login__form" onSubmit={handleSubmit}>
+        <input className="login__input" required name="email" type="email" value={email} placeholder="Email" onChange={handleEmailChange} />
+        <input className="login__input" required name="password" type="password" value={password} placeholder="Пароль" onChange={handlePasswordChange} />
+        <div className="login__button-container">
+          <button className="login__button-submit" type="submit">Зарегистрироваться</button>
+          <Link className='login__signin-link' to='/sign-in'>Уже зарегистрированы? Войти</Link>
         </div>
-      </div>
-    );
-  }
+      </form>
+    </div>
+  );
 }
 
 export default Register;

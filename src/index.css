@@ -59,4 +59,11 @@
 @import url(./blocks/popup/__foto/popup__foto.css);
 @import url(./blocks/popup/__figcaption/popup__figcaption.css);
 @import url(./blocks/popup/__error/popup__error.css);
+@import url(./blocks/login/login.css);
+@import url(./blocks/login/__subtitle/login__subtitle.css);
+@import url(./blocks/login/__form/login__form.css);
+@import url(./blocks/login/__input/login__input.css);
+@import url(./blocks/login/__button-container/login__button-container.css);
+@import url(./blocks/login/__buton-submit/login__button-submit.css);
+
 

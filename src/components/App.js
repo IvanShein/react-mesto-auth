@@ -22,6 +22,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(true);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     Promise.all([api.getUserInformation(), api.getInitialCards()])
@@ -139,7 +140,7 @@ function App() {
             {loggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
           </Route>
         </Switch>
-        
+
 
         <Footer />
 
