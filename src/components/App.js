@@ -10,10 +10,11 @@ import api from '../utils/Api.js';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -22,9 +23,10 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [email, setEmail] = useState('');
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState('test');
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const history = useHistory();
 
 
   useEffect(() => {
@@ -121,35 +123,34 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header
-          email={'test@email'}
+          email={email}
           onSignOut={{}}
         />
-        <Switch>
-          <Route path="/sign-up">
-            <Register />
-          </Route>
-          <Route path="/sign-in">
-            <Login />
-          </Route>
 
-          <Route exact path="/">
-            <Main
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-            />
+        <Switch>
+          <Route exact path="/sign-in">
+            <Login onLogin={{}} />
+          </Route>
+          <Route exact path="/sign-up">
+            <Register onRegister={{}} />
           </Route>
           <Route path="*">
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
           </Route>
+          <ProtectedRoute exact path="/"
+            component={Main}
+            loggedIn={loggedIn}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}>
+          </ProtectedRoute>
         </Switch>
 
-
-        <Footer />
+        {loggedIn && <Footer />}
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

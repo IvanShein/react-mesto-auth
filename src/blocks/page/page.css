@@ -6,4 +6,5 @@
   color: #FFF;
   min-width: 320px;
   text-rendering: optimizeLegibility;
+  min-height: 100vh;
 }
