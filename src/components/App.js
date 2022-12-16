@@ -120,7 +120,10 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header
+          email={'test@email'}
+          onSignOut={{}}
+        />
         <Switch>
           <Route path="/sign-up">
             <Register />
