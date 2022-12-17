@@ -32,15 +32,17 @@ function App() {
 
 
   useEffect(() => {
-    Promise.all([api.getUserInformation(), api.getInitialCards()])
-      .then(([userData, initialCards]) => {
-        setCurrentUser(userData);
-        setCards(initialCards);
-      })
-      .catch((error) => {
-        console.log(`К сожалению, возникла ошибка: ${error}`);
-      });
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getUserInformation(), api.getInitialCards()])
+        .then(([userData, initialCards]) => {
+          setCurrentUser(userData);
+          setCards(initialCards);
+        })
+        .catch((error) => {
+          console.log(`К сожалению, возникла ошибка: ${error}`);
+        });
+    }
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -125,17 +127,38 @@ function App() {
     authorisation.signIn(password, email)
       .then((data) => {
         if (data.token) {
-          setEmail(email);
           setLoggedIn(true);
           history.push('/');
+          setEmail(email);
         } else {
           setIsRegistrationDone(false);
           setIsInfoTooltipOpen(true);
         }
       })
       .catch((error) => {
+        setIsRegistrationDone(false);
+        setIsInfoTooltipOpen(true);
         console.log(`К сожалению, возникла ошибка: ${error}`);
       })
+  };
+
+  const handleRegister = (password, email) => {
+    authorisation.registration(password, email)
+      .then((data) => {
+        history.push('/sign-in');
+        setIsRegistrationDone(true);
+        setIsInfoTooltipOpen(true);
+      })
+      .catch((error) => {
+        setIsRegistrationDone(false);
+        setIsInfoTooltipOpen(true);
+        console.log(`К сожалению, возникла ошибка: ${error}`);
+      })
+  };
+
+  const handleSignOut = () => {
+    setLoggedIn(false);
+    history.push('/sign-in');
   };
 
   return (
@@ -143,7 +166,7 @@ function App() {
       <div className="page">
         <Header
           email={email}
-          onSignOut={{}}
+          onSignOut={handleSignOut}
         />
 
         <Switch>
@@ -151,7 +174,7 @@ function App() {
             <Login onLogin={handleLogin} />
           </Route>
           <Route exact path="/sign-up">
-            <Register onRegister={{}} />
+            <Register onRegister={handleRegister} />
           </Route>
           <ProtectedRoute exact path="/"
             component={Main}

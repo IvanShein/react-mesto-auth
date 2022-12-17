@@ -11,7 +11,7 @@ class Authorisation {
     return Promise.reject(`При обращении к серверу возникла ошибка: ${response.status} ${response.statusText}`)
   };
 
-  registration({password, email}) {
+  registration(password, email) {
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
       headers: this._headers,
@@ -23,7 +23,7 @@ class Authorisation {
       .then(this._handleServerResponse)
   };
 
-  signIn({password, email}) {
+  signIn(password, email) {
     return fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
       headers: this._headers,
@@ -35,7 +35,7 @@ class Authorisation {
       .then(this._handleServerResponse)
   };
 
-  checkToken({token}) {
+  checkToken(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
       headers: {
