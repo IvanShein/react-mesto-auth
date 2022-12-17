@@ -35,4 +35,4 @@
 * Создать бэкенд приложения
 
 ## Ссылка на сайт:
-https://ivanshein.github.io/mesto-react/
+https://ivanshein.github.io/react-mesto-auth/

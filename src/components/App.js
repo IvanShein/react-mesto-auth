@@ -24,7 +24,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('none');
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isRegistrationDone, setIsRegistrationDone] = useState(false);
@@ -192,13 +192,7 @@ function App() {
         />
 
         <Switch>
-          <Route path="/sign-in">
-            <Login onLogin={handleLogin} />
-          </Route>
-          <Route path="/sign-up">
-            <Register onRegister={handleRegister} />
-          </Route>
-          <ProtectedRoute exact path="/"
+        <ProtectedRoute exact path="/"
             component={Main}
             loggedIn={loggedIn}
             onEditProfile={handleEditProfileClick}
@@ -209,6 +203,12 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}>
           </ProtectedRoute>
+          <Route path="/sign-in">
+            <Login onLogin={handleLogin} />
+          </Route>
+          <Route path="/sign-up">
+            <Register onRegister={handleRegister} />
+          </Route>
           <Route path="*">
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
           </Route>
