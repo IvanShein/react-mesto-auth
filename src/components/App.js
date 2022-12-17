@@ -10,7 +10,7 @@ import api from '../utils/Api.js';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory, BrowserRouter as Router } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
@@ -25,11 +25,26 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('test');
+  const [email, setEmail] = useState('none');
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isRegistrationDone, setIsRegistrationDone] = useState(false);
   const history = useHistory();
+  const token = localStorage.getItem('token');
 
+  const checkToken = (token) => {
+    if (token) {
+      authorisation.checkToken(token)
+        .then((data) => {
+          setLoggedIn(true);
+          setEmail(data.data.email);
+          console.log(data.data.email);
+          history.push("/");
+        })
+        .catch((error) => {
+          console.log(`К сожалению, возникла ошибка: ${error}`);
+        });
+    }
+  };
 
   useEffect(() => {
     if (loggedIn) {
@@ -42,9 +57,14 @@ function App() {
           console.log(`К сожалению, возникла ошибка: ${error}`);
         });
     }
+    checkToken(token)
   }, [loggedIn]);
 
-  function handleEditProfileClick() {
+  useEffect(() => {
+    checkToken(token)
+  }, [history]);
+
+  const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   }
 
@@ -127,6 +147,7 @@ function App() {
     authorisation.signIn(password, email)
       .then((data) => {
         if (data.token) {
+          localStorage.setItem('token', data.token);
           setLoggedIn(true);
           history.push('/');
           setEmail(email);
@@ -144,7 +165,7 @@ function App() {
 
   const handleRegister = (password, email) => {
     authorisation.registration(password, email)
-      .then((data) => {
+      .then(() => {
         history.push('/sign-in');
         setIsRegistrationDone(true);
         setIsInfoTooltipOpen(true);
@@ -157,6 +178,7 @@ function App() {
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem('token');
     setLoggedIn(false);
     history.push('/sign-in');
   };
@@ -170,10 +192,10 @@ function App() {
         />
 
         <Switch>
-          <Route exact path="/sign-in">
+          <Route path="/sign-in">
             <Login onLogin={handleLogin} />
           </Route>
-          <Route exact path="/sign-up">
+          <Route path="/sign-up">
             <Register onRegister={handleRegister} />
           </Route>
           <ProtectedRoute exact path="/"
@@ -190,7 +212,6 @@ function App() {
           <Route path="*">
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
           </Route>
-
         </Switch>
 
         {loggedIn && <Footer />}
