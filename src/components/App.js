@@ -15,6 +15,7 @@ import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
+import authorisation from '../utils/Authorisation.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -26,6 +27,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('test');
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [isRegistrationDone, setIsRegistrationDone] = useState(false);
   const history = useHistory();
 
 
@@ -119,6 +121,23 @@ function App() {
       })
   };
 
+  const handleLogin = (password, email) => {
+    authorisation.signIn(password, email)
+      .then((data) => {
+        if (data.token) {
+          setEmail(email);
+          setLoggedIn(true);
+          history.push('/');
+        } else {
+          setIsRegistrationDone(false);
+          setIsInfoTooltipOpen(true);
+        }
+      })
+      .catch((error) => {
+        console.log(`К сожалению, возникла ошибка: ${error}`);
+      })
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -129,13 +148,10 @@ function App() {
 
         <Switch>
           <Route exact path="/sign-in">
-            <Login onLogin={{}} />
+            <Login onLogin={handleLogin} />
           </Route>
           <Route exact path="/sign-up">
             <Register onRegister={{}} />
-          </Route>
-          <Route path="*">
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
           </Route>
           <ProtectedRoute exact path="/"
             component={Main}
@@ -148,6 +164,10 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}>
           </ProtectedRoute>
+          <Route path="*">
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+          </Route>
+
         </Switch>
 
         {loggedIn && <Footer />}
@@ -184,7 +204,7 @@ function App() {
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
-          isRegistrationDone={true}
+          isRegistrationDone={isRegistrationDone}
         />
 
       </div >
