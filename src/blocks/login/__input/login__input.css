@@ -1,6 +1,6 @@
 .login__input {
   margin: 0;
-  padding: 34px 0 0;
+  padding: 34px 0 8px;
   border: none;
   outline: none;
   color: #fff;
@@ -12,4 +12,10 @@
   background-color: #000;
   width: 100%;
   height: 59px;
+
+}
+
+.login__input:focus {
+  outline: none;
+  background-color: #000;
 }
