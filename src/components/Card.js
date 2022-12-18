@@ -30,7 +30,7 @@ class Card extends React.Component {
     );
 
     return (
-      <div key={this.props.card._id} id="container" className="cards__item">
+      <div id="container" className="cards__item">
         <a href="#" className="cards__foto-button" onClick={this.handleClick}>
           <img className="cards__image" src={this.props.card.link} alt={`Изображение из карточки ${this.props.card.name}`} />
         </a>
