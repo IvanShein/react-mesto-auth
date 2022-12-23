@@ -60,10 +60,6 @@ function App() {
     checkToken(token)
   }, [loggedIn]);
 
-  // useEffect(() => {
-  //   checkToken(token)
-  // }, [history]);
-
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   }
